@@ -8,22 +8,41 @@ FILENAME = "subject_data.txt"
 
 def main():
     data = get_data()
-    print(data)
+    print_subject_details(data)
 
 
 def get_data():
-    """Read data from file formatted like: subject,lecturer,number of students."""
+    """
+    Read data from file formatted like: subject,lecturer,number of students.
+    """
     input_file = open(FILENAME)
+    data = []
     for line in input_file:
         print(line)  # See what a line looks like
         print(repr(line))  # See what a line really looks like
         line = line.strip()  # Remove the \n
         parts = line.split(',')  # Separate the data into its parts
-        print(parts)  # See what the parts look like (notice the integer is a string)
-        parts[2] = int(parts[2])  # Make the number an integer (ignore PyCharm's warning)
+        print(parts)  # See what the parts look like (notice the integer is a
+        # string)
+        parts[2] = int(parts[2])  # Make the number an integer (ignore
+        # PyCharm's warning)
+        data.append(parts)
         print(parts)  # See if that worked
         print("----------")
     input_file.close()
+    return data
+
+
+def print_subject_details(subjects):
+    longest_name_length = 0
+    for subject in subjects:
+        length = len(subject[1])
+        if length > longest_name_length:
+            longest_name_length = length
+
+    for subject in subjects:
+        print("{} is taught by {:^{width}} and has {:>3} students".format(
+              subject[0], subject[1], subject[2], width=longest_name_length))
 
 
 main()
